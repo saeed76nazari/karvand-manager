@@ -94,6 +94,50 @@ def Show_All():
         print("=" * 30)
 
 
+def Search_Id(search_id):
+    data = Load_Data()
+
+    for karvand in data["karvands"]:
+        if karvand["id"] == search_id:
+            print(f"ID: {karvand['id']}")
+            print(f"Full Name: {karvand['full_name']}")
+            print(f"Email: {karvand['email']}")
+            print(f"City: {karvand['city']}")
+
+            print("Education:")
+            print(f"  Degree: {karvand['education']['degree']}")
+            print(f"  field_of_study: {karvand['education']['field_of_study']}")
+
+            print("Skills:")
+            for skill in karvand["skills"]:
+                print(f"  Name: {skill['name']}")
+                print(f"  Level: {skill['level']}")
+                print(f"  Score: {skill['score']}")
+
+            return
+
+    print("No karvand found with the shenaseh.")
+
+
+
+def Search_Skill(skill_name):
+    data = Load_Data()
+    found = False
+
+    for karvand in data["karvands"]:
+        for skill in karvand["skills"]:
+            if skill["name"].lower() == skill_name.lower():
+                found = True
+
+                print(f"ID: {karvand['id']}")
+                print(f"Full Name: {karvand['full_name']}")
+                print(f"Email: {karvand['email']}")
+                print(f"City: {karvand['city']}")
+                print('-'*30)
+
+    if not found:
+        print("No karvand found with this skill.")
+
 
 
 
@@ -150,9 +194,15 @@ while True:
     if msg_in=="2":
         Show_All()
     if msg_in=="3":
-        pass
+        while True:
+            try:
+                search_id = int(input("Please Enter Search ID: "))
+                break
+            except ValueError:
+                print("Please enter a of number.")
+        Search_Id(search_id)
     if msg_in=="4":
-        pass
+        Search_Skill(input("Please Enter Search in Skill: "))
     if msg_in=="5":
         pass
     if msg_in=="6":
