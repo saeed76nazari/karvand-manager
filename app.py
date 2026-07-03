@@ -140,6 +140,94 @@ def Search_Skill(skill_name):
 
 
 
+def Edit_Karvand(search_id):
+    data = Load_Data()
+    for karvand in data["karvands"]:
+        if karvand["id"] == search_id:
+
+            msg="""
+                        1) Email
+                        2) City
+                        3) Degree
+                        4) field_of_study
+                """
+            edit = input(f"this is select in {msg}: ")
+
+            if edit == "1":
+                karvand["email"] = input("New Email: ")
+            elif edit == "2":
+                karvand["city"] = input("New City: ")
+            elif edit == "3":
+                karvand["education"]["degree"] = input("New Degree: ")
+            elif edit == "4":
+                karvand["education"]["field_of_study"] = input("New field_of_study: ")
+
+            with open(path, "w", encoding="utf-8") as file:
+                json.dump(data, file, indent=4)
+
+            print("information this edit  OK.")
+            return
+    print("No karvand found with the shenaseh.")
+
+
+def Delete_Karvand(search_id):
+    data = Load_Data()
+
+    for karvand in data["karvands"]:
+        if karvand["id"] == search_id:
+            data["karvands"].remove(karvand)
+
+            with open(path, "w", encoding="utf-8") as file:
+                json.dump(data, file, indent=4)
+
+            print("Karvand deleted  this  OK.")
+            return
+
+    print("No karvand found with the shenaseh.")
+
+
+def Report():
+    data = Load_Data()
+    total_karvands = len(data["karvands"]) #تعداد کل کاروندها
+
+    total_skills = 0 #تعداد کل مهار تهای ثب تشده
+    total_score = 0 #میانگین امتیاز مهار تها
+    cities = [] #فهرست شهرهای ثب تشده
+    unique_skills = [] #فهرست مهارتهای غیرتکراری
+
+    for karvand in data["karvands"]:
+
+        # شهرها
+        if karvand["city"] not in cities:
+            cities.append(karvand["city"])
+
+        # مهارت‌ها
+        for skill in karvand["skills"]:
+            total_skills += 1
+            total_score += skill["score"]
+
+            if skill["name"] not in unique_skills:
+                unique_skills.append(skill["name"])
+
+    if total_skills > 0:
+        average_skill_score = total_score / total_skills
+    else:
+        average_skill_score = 0
+
+    report = {
+        "total_karvands": total_karvands,
+        "total_skills": total_skills,
+        "average_skill_score": average_skill_score,
+        "cities": cities,
+        "unique_skills": unique_skills
+    }
+
+    print(report)
+
+    with open("data/report.json", "w", encoding="utf-8") as file:
+        json.dump(report, file, indent=4)
+
+
 
 
 
@@ -203,11 +291,23 @@ while True:
         Search_Id(search_id)
     if msg_in=="4":
         Search_Skill(input("Please Enter Search in Skill: "))
-    if msg_in=="5":
-        pass
+     if msg_in=="5":
+        while True:
+            try:
+                search_id_edit = int(input("Plase Enter is id with the Edit:  "))
+                break
+            except ValueError:
+                print("Please enter a of number.")
+        Edit_Karvand(search_id_edit)
     if msg_in=="6":
-        pass
+        while True:
+            try:
+                search_id_del = int(input("Please Enter id this is karvand to delete : "))
+                break
+            except ValueError:
+                print("Please enter a of number.")
+        Delete_Karvand(search_id_del)
     if msg_in=="7":
-        pass
+        Report()
     if msg_in=="8":
         break
