@@ -1,0 +1,42 @@
+{
+    "bootcamp": {
+        "title": "Karvand Python",
+        "year": 2026
+    },
+    "karvands": [
+        {
+            "id": 1,
+            "full_name": "saeed nazari",
+            "email": "s.nazari1376@gmail.com",
+            "city": "tehran",
+            "education": {
+                "degree": "computer",
+                "field_of_study": "spftware"
+            },
+            "skills": [
+                {
+                    "name": "python",
+                    "level": "mid-level",
+                    "score": 75
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "full_name": "ahmad moradi",
+            "email": "ahmad.moradi @yahoo.com",
+            "city": "shiraz",
+            "education": {
+                "degree": "reyazi",
+                "field_of_study": "shimi"
+            },
+            "skills": [
+                {
+                    "name": "java",
+                    "level": "mid",
+                    "score": 45
+                }
+            ]
+        }
+    ]
+}
